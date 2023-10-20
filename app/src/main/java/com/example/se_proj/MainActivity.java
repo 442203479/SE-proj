@@ -1,4 +1,3 @@
-
 //Profile Page
 package com.example.se_proj;
 
@@ -7,7 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,13 +19,29 @@ public class MainActivity extends AppCompatActivity {
 
     Button profile;
 
+    TextView myUsername;
+    String username;
+
+
+
+    ListView lv_myPostsList;
+    ArrayAdapter myPostsArrayAdapter;
+    DatabaseHelper dataBaseHelper;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lv_myPostsList = findViewById(R.id.lv_myPosts);
+        dataBaseHelper = new DatabaseHelper(MainActivity.this);
+        ShowMyPosts(dataBaseHelper);
+
         add_btn = findViewById(R.id.addbtn);
 
         profile = findViewById(R.id.mypostbtn);
+        myUsername = findViewById(R.id.myUsername);
+
+        username=myUsername.getText().toString();
 
         add_btn.setOnClickListener(v ->
 
@@ -36,27 +54,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        profile.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                dataBaseHelper = new DatabaseHelper(MainActivity.this);
+                ShowMyPosts(dataBaseHelper);
+
+            }
+        });
+
+
     }
 
 
-
+    private void ShowMyPosts(DatabaseHelper dataBaseHelper) {
+        myPostsArrayAdapter = new
+                ArrayAdapter<userPosts>(MainActivity.this,
+                android.R.layout.simple_list_item_1, dataBaseHelper.getAllMyPosts(username));
+        lv_myPostsList.setAdapter(myPostsArrayAdapter);
+    }
 }
 
-class userInfo
+class userPosts
 {
-String userID;
-String img_url;
+    String userID;
+    String img_url;
 
-String desc;
+    String desc;
 
-int timespamp;
+    String timestamp;
 
 
-    public userInfo(String userID, String img_url, String desc, int timespamp) {
+    public userPosts(String userID, String img_url, String desc, String timestamp) {
         this.userID = userID;
         this.img_url = img_url;
         this.desc = desc;
-        this.timespamp = timespamp;
+        this.timestamp = timestamp;
     }
 
     public String getUserID() {
@@ -83,23 +116,21 @@ int timespamp;
         this.desc = desc;
     }
 
-    public int getTimespamp() {
-        return timespamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimespamp(int timespamp) {
-        this.timespamp = timespamp;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
-        return "userInfo{" +
-                "userID='" + userID + '\'' +
-                ", img_url='" + img_url + '\'' +
-                ", desc='" + desc + '\'' +
-                ", timespamp=" + timespamp +
-                '}';
+
+
+        return img_url + '\n' +
+                "Description: " + desc + '\n' +
+                "Timestamp: " + timestamp + '\n';
     }
 }
-
 

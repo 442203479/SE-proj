@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_IMAGE_URL + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
-                COLUMN_USER_ID + " INTEGER, " +
+                COLUMN_USER_ID + " TEXT , " +
                 COLUMN_TIMESTAMP + " INTEGER" +
                 ")";
         db.execSQL(createTable);
@@ -40,5 +40,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database upgrades
+    }
+
+
+
+    public List<userPosts> getAllMyPosts(String username){
+        List<userPosts> returnList = new ArrayList<>();
+        // get data from database
+        String queryString = "Select * from "+ TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if(cursor.moveToFirst()){
+            // loop through cursor results
+            do{
+
+                String img_url = cursor.getString(1);
+                String desc = cursor.getString(2);
+                String UserID = cursor.getString(3);
+                String timestamp = cursor.getString(4);
+                userPosts myPosts = new userPosts(UserID, img_url, desc, timestamp);
+                returnList.add(myPosts);
+            }while (cursor.moveToNext());
+        } else{
+            // nothing happens. no one is added.
+        }
+        //close
+        cursor.close();
+        db.close();
+        return returnList;
     }
 }

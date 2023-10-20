@@ -54,4 +54,25 @@
         app:layout_constraintEnd_toStartOf="@+id/mypostbtn"
         app:layout_constraintStart_toEndOf="@+id/expbtn" />
 
+    <TextView
+        android:id="@+id/myUsername"
+        android:layout_width="137dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="74dp"
+        android:text="Alice"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lv_myPosts"
+        android:layout_width="391dp"
+        android:layout_height="548dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myUsername" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
