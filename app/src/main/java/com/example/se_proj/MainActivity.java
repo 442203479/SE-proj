@@ -2,31 +2,43 @@
 package com.example.se_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     Button add_btn;
 
     Button profile;
 
+    Button exp_btn;
+
     TextView myUsername;
     String username;
 
-
+     CustomAdapter customAdapter;
 
     ListView lv_myPostsList;
-    ArrayAdapter myPostsArrayAdapter;
-    DatabaseHelper dataBaseHelper;
+
+     DatabaseHelper dataBaseHelper;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +46,22 @@ public class MainActivity extends AppCompatActivity {
 
         lv_myPostsList = findViewById(R.id.lv_myPosts);
         dataBaseHelper = new DatabaseHelper(MainActivity.this);
-        ShowMyPosts(dataBaseHelper);
+
 
         add_btn = findViewById(R.id.addbtn);
+        exp_btn = findViewById(R.id.expbtn);
 
         profile = findViewById(R.id.mypostbtn);
         myUsername = findViewById(R.id.myUsername);
 
         username=myUsername.getText().toString();
+
+
+        List<userPosts> data = dataBaseHelper.getAllMyPosts(username);
+        customAdapter = new CustomAdapter(this, data, dataBaseHelper);
+
+        lv_myPostsList.setAdapter(customAdapter);
+
 
         add_btn.setOnClickListener(v ->
 
@@ -53,26 +73,24 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        exp_btn.setOnClickListener(v ->
 
-        profile.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                dataBaseHelper = new DatabaseHelper(MainActivity.this);
-                ShowMyPosts(dataBaseHelper);
+        {
 
-            }
+
+            Intent intent = new Intent(getApplicationContext(), Explore.class);
+            startActivity(intent);
+
         });
 
 
+
+
+
     }
 
 
-    private void ShowMyPosts(DatabaseHelper dataBaseHelper) {
-        myPostsArrayAdapter = new
-                ArrayAdapter<userPosts>(MainActivity.this,
-                android.R.layout.simple_list_item_1, dataBaseHelper.getAllMyPosts(username));
-        lv_myPostsList.setAdapter(myPostsArrayAdapter);
-    }
+
 }
 
 class userPosts
@@ -84,12 +102,15 @@ class userPosts
 
     String timestamp;
 
+    int id;
 
-    public userPosts(String userID, String img_url, String desc, String timestamp) {
+
+    public userPosts(String userID, String img_url, String desc, String timestamp, int id) {
         this.userID = userID;
         this.img_url = img_url;
         this.desc = desc;
         this.timestamp = timestamp;
+        this.id=id;
     }
 
     public String getUserID() {
@@ -124,6 +145,14 @@ class userPosts
         this.timestamp = timestamp;
     }
 
+    public void setId(String img_url) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
 
@@ -133,4 +162,107 @@ class userPosts
                 "Timestamp: " + timestamp + '\n';
     }
 }
+
+ class CustomAdapter extends BaseAdapter {
+     DatabaseHelper dataBaseHelper;
+     SQLiteDatabase db;
+     List<userPosts> data;
+     Context context;
+     LayoutInflater inflater;
+
+    public CustomAdapter(Context context, List<userPosts> data, DatabaseHelper dataBaseHelper) {
+        this.context = context;
+        this.data = data;
+        this.dataBaseHelper = dataBaseHelper;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public int getCount() {
+        return data.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return data.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+
+        View view = inflater.inflate(R.layout.userposts, null);
+        ImageView img = view.findViewById(R.id.imageView2);
+        EditText desc = view.findViewById(R.id.description);
+        TextView timestamp = view.findViewById(R.id.timestamp2);
+
+        Button buttonEdit = view.findViewById(R.id.editbtn);
+        Button buttonDelete = view.findViewById(R.id.deletebtn);
+        Button buttonSave = view.findViewById(R.id.savbtn);
+        Uri myImgUri;
+        String uriString;
+
+        userPosts item = data.get(position);
+
+
+        desc.setText(item.getDesc());
+        timestamp.setText(item.getTimestamp());
+         uriString = item.getImg_url();
+         myImgUri=Uri.parse(uriString);
+         img.setImageURI(myImgUri);
+
+
+
+                buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonSave.setVisibility(View.VISIBLE);
+                desc.setEnabled(true);
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String queryString = "DELETE FROM " + DatabaseHelper.TABLE_POSTS +
+                        " WHERE " + DatabaseHelper.COLUMN_ID + " = " + item.getId();
+                db = dataBaseHelper.getWritableDatabase();
+                db.execSQL(queryString);
+
+                data.remove(position);
+                notifyDataSetChanged();
+
+            }
+
+
+        });
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonSave.setVisibility(View.INVISIBLE);
+                desc.setEnabled(false);
+
+                String newDescription = desc.getText().toString();
+
+                item.setDesc(newDescription);
+
+                String queryString = "UPDATE "+ DatabaseHelper.TABLE_POSTS+
+                        " SET "+ DatabaseHelper.COLUMN_DESCRIPTION +"='"+ item.getDesc()+
+                        "' WHERE "+DatabaseHelper.COLUMN_ID+" ="+item.getId();
+                 db = dataBaseHelper.getWritableDatabase();
+                db.execSQL(queryString);
+
+            }
+        });
+
+        return view;
+    }
+}
+
 

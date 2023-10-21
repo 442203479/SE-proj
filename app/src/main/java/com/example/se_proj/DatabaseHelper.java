@@ -42,23 +42,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Handle database upgrades
     }
 
-
-
-    public List<userPosts> getAllMyPosts(String username){
+    public List<userPosts> getAllMyPosts(){
         List<userPosts> returnList = new ArrayList<>();
         // get data from database
-        String queryString = "Select * from "+ TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'";
+        String queryString = "Select * from "+ TABLE_POSTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
         if(cursor.moveToFirst()){
             // loop through cursor results
             do{
-
+                int id = cursor.getInt(0);
                 String img_url = cursor.getString(1);
                 String desc = cursor.getString(2);
                 String UserID = cursor.getString(3);
                 String timestamp = cursor.getString(4);
-                userPosts myPosts = new userPosts(UserID, img_url, desc, timestamp);
+                userPosts myPosts = new userPosts(UserID, img_url, desc, timestamp, id);
                 returnList.add(myPosts);
             }while (cursor.moveToNext());
         } else{
@@ -69,4 +67,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+
+    public List<userPosts> getAllMyPosts(String username){
+        List<userPosts> returnList = new ArrayList<>();
+        // get data from database
+        String queryString = "Select * from "+
+                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if(cursor.moveToFirst()){
+            // loop through cursor results
+            do{
+                int id = cursor.getInt(0);
+                String img_url = cursor.getString(1);
+                String desc = cursor.getString(2);
+                String UserID = cursor.getString(3);
+                String timestamp = cursor.getString(4);
+                userPosts myPosts = new userPosts(UserID, img_url, desc, timestamp, id);
+                returnList.add(myPosts);
+            }while (cursor.moveToNext());
+        } else{
+            // nothing happens. no one is added.
+        }
+        //close
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+
 }

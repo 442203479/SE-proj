@@ -23,6 +23,8 @@ public class AddPost extends AppCompatActivity {
 
     Button profile;
 
+    Button exp_btn;
+
     TextView username;
     TextView img_url;
     EditText user_desc;
@@ -37,9 +39,21 @@ public class AddPost extends AppCompatActivity {
         setContentView(R.layout.activity_add_post);
 
         profile = findViewById(R.id.mypostbtn2);
+        exp_btn = findViewById(R.id.expbtn2);
 
 
 
+
+
+        exp_btn.setOnClickListener(v ->
+
+        {
+
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+
+        });
 
 
         profile.setOnClickListener(v ->
@@ -99,7 +113,7 @@ public class AddPost extends AppCompatActivity {
     public void onImagePickerButtonClick(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
@@ -115,7 +129,7 @@ public class AddPost extends AppCompatActivity {
             img_url.setText(selectedImageUri.toString());
             img_view.setImageURI(selectedImageUri);
 
-            // Perform further processing of the selected image
+
         }
     }
 

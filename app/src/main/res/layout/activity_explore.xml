@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Explore">
+
+  <Button
+      android:id="@+id/addbtn3"
+      android:layout_width="98dp"
+      android:layout_height="69dp"
+      android:layout_marginStart="27dp"
+      android:layout_marginTop="32dp"
+      android:contentDescription="Add A New Post"
+      app:icon="@android:drawable/ic_menu_add"
+      app:iconGravity="textStart"
+      app:iconPadding="0dp"
+      app:iconSize="50dp"
+      app:layout_constraintStart_toEndOf="@+id/expbtn3"
+      app:layout_constraintTop_toBottomOf="@+id/lv_exploreposts" />
+
+  <Button
+      android:id="@+id/expbtn3"
+      android:layout_width="98dp"
+      android:layout_height="69dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="32dp"
+      android:contentDescription="Explore Other's Posts"
+      android:isScrollContainer="false"
+      android:pointerIcon="none"
+      app:icon="@android:drawable/ic_menu_compass"
+      app:iconGravity="textStart"
+      app:iconPadding="0dp"
+      app:iconSize="50dp"
+      app:iconTint="#FFFFFF"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/lv_exploreposts" />
+
+  <Button
+      android:id="@+id/mypostbtn3"
+      android:layout_width="98dp"
+      android:layout_height="69dp"
+      android:layout_marginTop="32dp"
+      android:layout_marginEnd="31dp"
+      android:contentDescription="View My Posts"
+      app:icon="@drawable/user"
+      app:iconGravity="textStart"
+      app:iconPadding="0dp"
+      app:iconSize="50dp"
+      app:iconTint="#FFFFFF"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/lv_exploreposts" />
+
+  <ListView
+      android:id="@+id/lv_exploreposts"
+      android:layout_width="394dp"
+      android:layout_height="447dp"
+      android:layout_marginTop="71dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+  <TextView
+      android:id="@+id/textView2"
+      android:layout_width="110dp"
+      android:layout_height="70dp"
+      android:layout_marginStart="141dp"
+      android:layout_marginTop="60dp"
+      android:text="Explore Page"
+      android:textAlignment="center"
+      android:textSize="20sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
