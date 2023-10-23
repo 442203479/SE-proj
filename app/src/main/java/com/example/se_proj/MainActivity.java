@@ -5,21 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
@@ -34,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     TextView myUsername;
     String username;
 
-     CustomAdapter customAdapter;
+    userPostsAdapter customAdapter;
 
     ListView lv_myPostsList;
 
@@ -58,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         List<userPosts> data = dataBaseHelper.getPosts(username);
-        customAdapter = new CustomAdapter(this, data, dataBaseHelper);
+        customAdapter = new userPostsAdapter(this, data, dataBaseHelper);
 
         lv_myPostsList.setAdapter(customAdapter);
 
@@ -163,14 +159,14 @@ class userPosts
     }
 }
 
- class CustomAdapter extends BaseAdapter {
+ class userPostsAdapter extends BaseAdapter {
      DatabaseHelper dataBaseHelper;
      SQLiteDatabase db;
      List<userPosts> data;
      Context context;
      LayoutInflater inflater;
 
-    public CustomAdapter(Context context, List<userPosts> data, DatabaseHelper dataBaseHelper) {
+    public userPostsAdapter(Context context, List<userPosts> data, DatabaseHelper dataBaseHelper) {
         this.context = context;
         this.data = data;
         this.dataBaseHelper = dataBaseHelper;
@@ -200,6 +196,7 @@ class userPosts
         ImageView img = view.findViewById(R.id.imageView2);
         EditText desc = view.findViewById(R.id.description);
         TextView timestamp = view.findViewById(R.id.timestamp2);
+
 
         Button buttonEdit = view.findViewById(R.id.editbtn);
         Button buttonDelete = view.findViewById(R.id.deletebtn);

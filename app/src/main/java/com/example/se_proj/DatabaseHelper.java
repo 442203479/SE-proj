@@ -1,12 +1,10 @@
 package com.example.se_proj;
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<userPosts> returnList = new ArrayList<>();
         // get data from database
         String queryString = "Select * from "+
-                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='"+username+"'";
+                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'"; //='"+username+"' after we register more users
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
         if(cursor.moveToFirst()){

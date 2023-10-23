@@ -13,12 +13,15 @@
         android:theme="@style/Theme.SEproj"
         tools:targetApi="31" >
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".Explore"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".AddPost"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>

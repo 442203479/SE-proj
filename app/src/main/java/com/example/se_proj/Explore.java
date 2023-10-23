@@ -11,16 +11,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class Explore extends AppCompatActivity {
     TextView textView2;
     String username;
 
-    CustomAdapterExplore customAdapter;
+    AdapterExplore customAdapter;
 
     ListView lv_explorePosts;
 
@@ -52,7 +49,7 @@ public class Explore extends AppCompatActivity {
         profile = findViewById(R.id.mypostbtn3);
 
         List<userPosts> data = dataBaseHelper.getPosts();
-        customAdapter = new CustomAdapterExplore(this, data);
+        customAdapter = new AdapterExplore(this, data);
 
         lv_explorePosts.setAdapter(customAdapter);
 
@@ -81,12 +78,12 @@ public class Explore extends AppCompatActivity {
     }
 }
 
-class CustomAdapterExplore extends BaseAdapter {
+class AdapterExplore extends BaseAdapter {
     List<userPosts> data;
     Context context;
     LayoutInflater inflater;
 
-    public CustomAdapterExplore(Context context, List<userPosts> data) {
+    public AdapterExplore(Context context, List<userPosts> data) {
         this.context = context;
         this.data = data;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

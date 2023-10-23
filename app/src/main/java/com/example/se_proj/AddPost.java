@@ -13,8 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddPost extends AppCompatActivity {
 
@@ -84,12 +85,13 @@ public class AddPost extends AppCompatActivity {
             // Insert data into the database
             DatabaseHelper dbHelper = new DatabaseHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.getDefault());
+            String date = sdf.format(new Date());
             ContentValues values = new ContentValues();
             values.put(DatabaseHelper.COLUMN_IMAGE_URL, imageUrl);
             values.put(DatabaseHelper.COLUMN_DESCRIPTION, description);
             values.put(DatabaseHelper.COLUMN_USER_ID, myUsername);
-            values.put(DatabaseHelper.COLUMN_TIMESTAMP, Calendar.getInstance().getTime().getTime());
+            values.put(DatabaseHelper.COLUMN_TIMESTAMP, date);
 
             long newRowId = db.insert(DatabaseHelper.TABLE_POSTS, null, values);
 
