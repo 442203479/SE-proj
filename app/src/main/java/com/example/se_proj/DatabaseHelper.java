@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Handle database upgrades
     }
 
-    public List<userPosts> getAllMyPosts(){
+    public List<userPosts> getPosts(){
         List<userPosts> returnList = new ArrayList<>();
         // get data from database
         String queryString = "Select * from "+ TABLE_POSTS;
@@ -68,11 +68,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public List<userPosts> getAllMyPosts(String username){
+    public List<userPosts> getPosts(String username){
         List<userPosts> returnList = new ArrayList<>();
         // get data from database
         String queryString = "Select * from "+
-                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'"; //for the time being, since we have no other users
+                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='"+username+"'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
         if(cursor.moveToFirst()){

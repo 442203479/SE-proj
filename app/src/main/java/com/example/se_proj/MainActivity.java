@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         username=myUsername.getText().toString();
 
 
-        List<userPosts> data = dataBaseHelper.getAllMyPosts(username);
+        List<userPosts> data = dataBaseHelper.getPosts(username);
         customAdapter = new CustomAdapter(this, data, dataBaseHelper);
 
         lv_myPostsList.setAdapter(customAdapter);

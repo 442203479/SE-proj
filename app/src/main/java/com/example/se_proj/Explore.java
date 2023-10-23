@@ -51,7 +51,7 @@ public class Explore extends AppCompatActivity {
 
         profile = findViewById(R.id.mypostbtn3);
 
-        List<userPosts> data = dataBaseHelper.getAllMyPosts();
+        List<userPosts> data = dataBaseHelper.getPosts();
         customAdapter = new CustomAdapterExplore(this, data);
 
         lv_explorePosts.setAdapter(customAdapter);
