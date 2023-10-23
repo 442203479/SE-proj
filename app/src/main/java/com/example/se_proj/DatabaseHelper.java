@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<userPosts> returnList = new ArrayList<>();
         // get data from database
         String queryString = "Select * from "+
-                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'";
+                TABLE_POSTS +" WHERE "+  COLUMN_USER_ID +"='Alice'"; //for the time being, since we have no other users
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
         if(cursor.moveToFirst()){

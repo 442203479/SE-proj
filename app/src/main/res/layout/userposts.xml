@@ -21,10 +21,13 @@
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
+        android:breakStrategy="simple"
         android:ems="10"
         android:enabled="false"
-        android:inputType="text"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
