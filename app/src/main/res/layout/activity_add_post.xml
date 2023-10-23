@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddPost">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
     <Button
         android:id="@+id/mypostbtn2"
@@ -56,8 +62,7 @@
         android:id="@+id/img_url"
         android:layout_width="214dp"
         android:layout_height="33dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginStart="72dp"
         android:ems="10"
         android:hint="Enter Image Url"
         android:inputType="text"
@@ -66,8 +71,8 @@
         android:textAlignment="center"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/picker"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck"
+        tools:layout_editor_absoluteY="285dp" />
 
     <EditText
         android:id="@+id/user_description"
@@ -106,23 +111,22 @@
 
     <Button
         android:id="@+id/picker"
-        android:layout_width="156dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="118dp"
-        android:layout_marginTop="67dp"
+        android:layout_width="106dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="296dp"
         android:onClick="onImagePickerButtonClick"
         android:text="Choose Image"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/img_url"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="107dp"
         android:layout_height="116dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="148dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/picker"
+        tools:layout_editor_absoluteY="139dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -137,3 +141,5 @@
         app:layout_constraintTop_toBottomOf="@+id/addbtn2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
